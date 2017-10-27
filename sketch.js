@@ -146,8 +146,6 @@ function alienShoot(){
     for(i = 0; i < aliens.length; i++){
       if(frameCount % 73 == 0){
        alienLazer(i);
-      } else {
-        alienLazer(i);
       }
     }
   }
