@@ -144,7 +144,7 @@ function alienShoot(){
     //make alien turn to bumble bee 
     bumbleAlien();
     for(i = 0; i < aliens.length; i++){
-      if(frameCount % 73 == 0){
+      if(frameCount % 97 == 0){
        alienLazer(i);
       }
     }
