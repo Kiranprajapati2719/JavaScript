@@ -1,4 +1,4 @@
-#### Click [Link] (https://kiranprajapati2719.github.io/invaderbee) to play game
+#### Click [a link] (https://kiranprajapati2719.github.io/invaderbee) to play game
 
 #### Contols:
 
