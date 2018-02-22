@@ -1,6 +1,6 @@
-####Click [Link] (https://kiranprajapati2719.github.io/invaderbee) to play game
+#### Click [Link] (https://kiranprajapati2719.github.io/invaderbee) to play game
 
-####Contols:
+#### Contols:
 
 Arrows	<-- 		-->  to move the ship
 Space ____ to shoot
