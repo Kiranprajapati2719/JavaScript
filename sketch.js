@@ -1,21 +1,19 @@
-//Global heroes 
+//Global heroes
 var ship;
 var aliens = [];
 var shots = [];
 var lazers = [];
-var alienNum = 47; 
+var alienNum = 47;
 var xoff1 = 0;
 var xoff2 = 100;
 var score = 0;
 
-function setup() {
+setup = () =>{
   initiate();
   noCursor();
-  // alert('CONTROLS: \n\n Use the left and right arrow to move the airship \n Press the space bar to shoot lazer');
-   // background-color: #000
 }
 
-function draw(offValue = 0.01) {
+draw = (offValue = 0.01) => {
 
   background(45);
 
@@ -32,7 +30,7 @@ function draw(offValue = 0.01) {
   pop();
 
   //Ship is drawn and updated
-  
+
   ship.update();
   ship.show();
   ship.move();
@@ -64,13 +62,13 @@ function draw(offValue = 0.01) {
 
     shots[i].move();
     shots[i].show();
-    
+
     for(let j = 0; j < aliens.length; j++){
-      
+
       if(shots[i].hits(aliens[j])){
         shots[i].del = true;
         aliens[j].life--;
-      }    
+      }
     }
   }
 
@@ -82,7 +80,7 @@ function draw(offValue = 0.01) {
     } else if (shots[i].y < 0){
       shots.splice(i, 1); // delete overflown shots
     }
-  }  
+  }
 
   // Aliens are deleted
 
@@ -91,7 +89,7 @@ function draw(offValue = 0.01) {
       score += aliens[j].val;
       aliens.splice(j, 1);
     }
-  } 
+  }
 
   // Lazers are deleted
 
@@ -99,25 +97,22 @@ function draw(offValue = 0.01) {
     if(lazers[k].y > height){
       lazers.splice(k, 1);
     }
-  } 
+  }
 
   alienShoot();
 
   xoff1 += offValue;
   xoff2 += offValue;
 
-  if(ship.y > -50){
-
-    if(score >= 11600){
-      // console.log('Hello');
-      ship.y -= 2;
-    }
+  if(!aliens.length){
+    ending();
   }
+
 } //draw
 
 //  Alien Lazer generation
 
-function alienShoot(){
+alienShoot = ()=>{
   if(aliens.length > 10){
 
     if(frameCount % 50 == 0){
@@ -139,12 +134,11 @@ function alienShoot(){
       }
     }
   } else {
-    //make alien turn to bumble bee 
+    //make alien turn to bumble bee
     bumbleAlien();
 
     for(let i = 0; i < aliens.length; i++){
       if(frameCount % 73 == 0){
-	//lazers[i].
        alienLazer(i);
        lazers[i].color = 'lightblue';
        lazers[i].r1 = 10;
@@ -154,13 +148,13 @@ function alienShoot(){
   }
 }
 
-function alienLazer(i){
+alienLazer = (i)=>{
   var lazer = new Lazer(aliens[i].x, aliens[i].y);
-  lazers.push(lazer); 
+  lazers.push(lazer);
 }
 
-function bumbleAlien(range = 50) {
-  
+bumbleAlien = (range = 50)=>{
+
   //clear default movement
   for (var i = 0; i < aliens.length; i++) {
     aliens[i].delx = 0;
@@ -174,20 +168,21 @@ function bumbleAlien(range = 50) {
 }
 
 //Gameover
-function gameOver() {
+gameOver = ()=> {
   noLoop();
+  alert('Game Over!!!\n\nReload to Play Again');
 }
 
-//  Player customization and controller
+//  Ship Controller
 
-function keyReleased(){
+keyReleased= () =>{
   if(key != ' '){
     ship.setDir(0);
   }
 }
 
-function keyPressed(){
-  
+keyPressed = () =>{
+
   let maxShots = 3;
 
   //Shoot Key
@@ -207,67 +202,47 @@ function keyPressed(){
   }
 }
 
-function initiate() {
-  // var parg1 = createP('L');
-  // parg1.style('display','inline-block');
-  // parg1.style('width','20%');
-  // parg1.style('background','red');
-  // var button = createButton('Retry');
-  // button.style('margin-top','420px');
-  // button.style('margin-left','auto');
-  // var wid = windowWidth*0.6;
-  var canv = createCanvas(600, 400);
-  var wid = (windowWidth/2) - 300; 
-  var hei = (windowHeight/2) - 200;
-  canv.position(wid,hei);
-  // canv.style('margin-right','auto');
-  // canv.style('margin-left','25%');
-  // canv.style('margin-top','20px');
-  // canv.style('margin-left','20%');
-  // var parg2 = createP('R');
-  // parg2.style('display','inline-block');
-  // parg2.style('width','20%');
-  // parg2.style('background','blue');
-  angleMode(DEGREES);
-  rectMode(CENTER);
+ initiate = ()=> {
+    var canv = createCanvas(600, 400);
+    var wid = (windowWidth/2) - 300;
+    var hei = (windowHeight/2) - 200;
+    canv.position(wid,hei);
+    angleMode(DEGREES);
+    rectMode(CENTER);
 
-  //Ship and Aliens are created
-  
-  ship = new Ship();
+    //Ship and Aliens are created
 
-  var dX = 20; //0 + 20 = this.r of aliens 
-  var dX2 = width - 60; //600-60 = width - 60
-  var dX3 = 50; //gap from left screen
-  // var dX4 = wi
-  for(let i = 0; i < alienNum; i++){
+    ship = new Ship();
 
-    if(i < 12){
-      //max no. of aliens 12 pointy
-      aliens[i] = new Alien(dX, 50, 'Pointy'); 
-      dX += 50;
-    } else if(i < 23){
-      //max no. of aliens 11 batty
-      aliens[i] = new Alien(dX2, 80, 'Batty');
-      aliens[i].delx = -1;
-      dX2 -= 50; 
-    } else if(i < 35){
-      //max no. of aliens 11 turty
-      aliens[i] = new Alien(dX3, 110);
-      dX3 += 45;
-      dX2 = width - 30;
-    } else {
-      //max no. of aliens 11 turty
-      aliens[i] = new Alien(dX2, 140);
-      aliens[i].delx = -1;
-      dX2 -= 45; 
-    }
+    var dX = 20; //0 + 20 = this.r of aliens
+    var dX2 = width - 60; //600-60 = width - 60
+    var dX3 = 50; //gap from left screen
+    // var dX4 = wi
+    for(let i = 0; i < alienNum; i++){
+
+      if(i < 12){
+        //max no. of aliens 12 pointy
+        aliens[i] = new Alien(dX, 50, 'Pointy');
+        dX += 50;
+      } else if(i < 23){
+        //max no. of aliens 11 batty
+        aliens[i] = new Alien(dX2, 80, 'Batty');
+        aliens[i].delx = -1;
+        dX2 -= 50;
+      } else if(i < 35){
+        //max no. of aliens 11 turty
+        aliens[i] = new Alien(dX3, 110);
+        dX3 += 45;
+        dX2 = width - 30;
+      } else {
+        //max no. of aliens 11 turty
+        aliens[i] = new Alien(dX2, 140);
+        aliens[i].delx = -1;
+        dX2 -= 45;
+      }
+    }//loop
   }
-}
 
-function frame2() {
-  // body...
-  var scr = createElement('div','Hello');
-  scr.style('width','600px');
-  scr.position('100','600');
-  scr.html('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniamquis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat nonproident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
-}
+  ending = () =>{
+      ship.y -= 2;
+  }
